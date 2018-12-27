@@ -61,6 +61,7 @@ export default {
     return {
       easejoy_bean: 0, //金豆
       prizeList: [], //奖品列表
+      prizeIndexPools: [], //奖池 奖品索引 按权重比例放
       isShowResult: false, //抽奖结果弹出框控制器
       hasPrize: false, //是否中奖
       startRotatingDegree: 0, //初始旋转角度
@@ -97,14 +98,14 @@ export default {
         },
         {
           icon: require("../assets/img/bean_five.png"),
-          count: 5,
+          count: 10,
           name: "豆",
           isPrize: 1
         },
         {
           icon: require("../assets/img/bean_one.png"),
-          count: 10,
-          name: "易趣豆",
+          count: 5,
+          name: "豆",
           isPrize: 1
         },
         {
@@ -121,7 +122,7 @@ export default {
         },
         {
           icon: require("../assets/img/bean_500.png"),
-          count: 10,
+          count: 15,
           name: "易趣豆",
           isPrize: 1
         },
@@ -133,20 +134,75 @@ export default {
         },
         {
           icon: require("../assets/img/bean_500.png"),
-          count: 10,
+          count: 20,
           name: "易趣豆",
           isPrize: 1
         }
       ]
+      this.luckyWheelRule();
+    },
+    /**
+     *幸运转盘规则 ：
+       规则是 count   0 - 9%
+       1 - 9%
+       2 - 12%
+       3 - 12%
+       4 - 12%
+       5 - 4%
+       6 - 40%
+       7 - 2%
+     */
+    luckyWheelRule(){
+      let prizeList = this.prizeList
+      this.prizeIndexPools = Object.create([])
+      this.prizeList.forEach((item, index) => {
+        if(index == 0){
+          for(let i=0;i<9;i++){
+            this.prizeIndexPools.push(0)
+          }
+        }else if(index == 1){
+          for(let i=0;i<9;i++){
+            this.prizeIndexPools.push(1)
+          }
+        }else if(index == 2){
+          for(let i=0;i<12;i++){
+            this.prizeIndexPools.push(2)
+          }
+        }else if(index == 3){
+          for(let i=0;i<12;i++){
+            this.prizeIndexPools.push(3)
+          }
+        }else if(index == 4){
+          for(let i=0;i<12;i++){
+            this.prizeIndexPools.push(4)
+          }
+        }else if(index == 5){
+          for(let i=0;i<4;i++){
+            this.prizeIndexPools.push(5)
+          }
+        }else if(index == 6){
+          for(let i=0;i<40;i++){
+            this.prizeIndexPools.push(6)
+          }
+        }else if(index == 7){
+          for(let i=0;i<2;i++){
+            this.prizeIndexPools.push(7)
+          }
+        }
+      })
     },
     startRotate() {
       let _this = this
+      if(this.clickNum > 3){
+        alert('抱歉，你已经抽奖3次，请明天再来！！！')
+        return;
+      }
       if (!this.isPermClick) return;
       let type = 0; // 默认为 0  转盘转动 1 箭头和转盘都转动(暂且遗留)
       let duringTime = 5; // 默认为1s
-      let random = Math.floor(Math.random() * 7);
+      console.log(Math.floor( Math.random() * (this.prizeIndexPools.length - 1) ));
+      let random = this.prizeIndexPools[Math.floor( Math.random() * (this.prizeIndexPools.length - 1) )]
       this.randomIndex = random
-      // let resultIndex = this.index ; // 最终要旋转到哪一块，对应prizeList的下标
       let resWheelCenterAngle = [337.5, 292.5, 247.5, 202.5, 157.5, 112.5, 67.5, 22.5]; //最终会旋转到下标的位置所需要的度数
       this.isPermClick = false; // 旋转结束前，不允许再次触发
       if (type == 0) {
