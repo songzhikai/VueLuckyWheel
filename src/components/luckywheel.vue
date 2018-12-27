@@ -138,7 +138,6 @@ export default {
           isPrize: 1
         }
       ]
-
     },
     startRotate() {
       let _this = this
