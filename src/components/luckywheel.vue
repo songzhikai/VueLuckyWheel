@@ -72,7 +72,7 @@ export default {
       rotateTransitionPointer: "transform 12s ease-in-out", //初始化指针过度属性控制
       isPermClick: true, //是否可以旋转抽奖
       randomIndex: 0, //转盘随机索引 0 - 7
-      addOnCircles: 5, //附加多转几圈，2-5
+      addOnCircles: 5, //附加多转几圈，3-5
       clickNum: 1, //点击次数
     };
   },
