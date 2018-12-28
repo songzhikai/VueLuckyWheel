@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import LuckyWheel from './components/luckywheel'
+import LuckyWheel from './components/ninesquare'
 
 export default {
   name: 'app',
